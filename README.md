@@ -4,7 +4,7 @@ Just a very simple processor I'm building for learning purposes, based on RISC-V
 
 # Architecture
 
-![JPC_architecture](doc/JPC_architecture.png)
+![JPC_architecture](doc/JPC_Architecture.png)
 
 # Testing
 
