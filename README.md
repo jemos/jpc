@@ -4,7 +4,7 @@ Just a very simple processor I'm building for learning purposes, based on RISC-V
 
 # Architecture
 
-TBD
+![JPC_architecture](doc/JPC_architecture.png)
 
 # Testing
 
@@ -24,4 +24,9 @@ time and signal variations.
 To see the same information in a waveform, we can use the `wave` target of the Makefile.
 
 	$ gmake wave V=test/jpc_pc_tb.v 
+
+
+# Hardware
+
+To test this processor I've used was a small Spartan 7 Series (XC7S15), with 12.8k logic cells, 2000 slics, 16k CLB Flip-Flops, 10 blocks of RAM/FIFO with ECC, with 36Kb each.
 
