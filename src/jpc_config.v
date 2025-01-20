@@ -1,0 +1,3 @@
+
+`define JPC_ADDRESS_WIDTH 32
+`define JPC_ENDIANNESS "LITTLE"

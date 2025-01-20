@@ -1,15 +1,20 @@
 `timescale 1ns / 1ps
 
-
+`include "jpc_config.v"
 
 module jpc_pc_tb;
+
+    // Parameters for address width and clock period
+    parameter JPC_ADDRESS_WIDTH = `ifdef JPC_ADDRESS_WIDTH `JPC_ADDRESS_WIDTH `else 32 `endif;
+    parameter JPC_CLOCK_PERIOD = 20;  // Clock period in ns
+    parameter RESET_DURATION = 25;   // Reset duration in ns
 
     // Testbench signals
     reg clk;                      // Clock
     reg rst;                      // Reset
-    reg [31:0] next_pc;           // Next PC value
+    reg [JPC_ADDRESS_WIDTH-1:0] next_pc; // Next PC value
     reg pc_enable;                // Enable signal for PC update
-    wire [31:0] pc;               // Current PC value
+    wire [JPC_ADDRESS_WIDTH-1:0] pc;     // Current PC value
 
     // Instantiate the program_counter module
     jpc_pc uut (
@@ -20,42 +25,49 @@ module jpc_pc_tb;
         .pc_O(pc)
     );
 
-    // Clock generation (50 MHz = 20 ns period)
+    // Clock generation
     initial begin
         clk = 0;
-        forever #10 clk = ~clk;  // 10 ns high, 10 ns low
+        forever #(JPC_CLOCK_PERIOD / 2) clk = ~clk;  // Generate a clock with a period defined by JPC_CLOCK_PERIOD
     end
 
-    // Testbench logic
+    // Testbench logic with manual assertions
     initial begin
         // Initialize signals
         rst = 1;
         pc_enable = 0;
-        next_pc = 32'b0;
+        next_pc = 0;
 
         // Step 1: Apply reset
-        #25; // Wait for some cycles
+        #(RESET_DURATION);  // Wait for reset duration
         rst = 0;
         pc_enable = 1;
 
+        // Manual assertion: Check if PC is reset to 0
+        #(1);
+        if (pc !== 0) $error("Assertion failed: PC did not reset correctly!");
+
         // Step 2: Normal operation - increment PC by 4
         next_pc = pc + 4;
-        #20; // Wait for one clock cycle
-        next_pc = pc + 4;
-        #20;
+        #(JPC_CLOCK_PERIOD);  // Wait for one clock cycle
+        if (pc !== 4) $error("Assertion failed: PC increment failed! Expected 4, got %0h", pc);
 
         // Step 3: Simulate a branch (jump to 32'h100)
         next_pc = 32'h100;
-        #20;
+        #(JPC_CLOCK_PERIOD);
+        if (pc !== 32'h100) $error("Assertion failed: PC branch failed! Expected 32'h100, got %0h", pc);
 
         // Step 4: Stall the PC (disable pc_enable)
         pc_enable = 0;
-        #40;
+        next_pc = pc + 4;
+        #(2 * JPC_CLOCK_PERIOD);  // Wait for two clock cycles
+        if (pc !== 32'h100) $error("Assertion failed: PC stall failed! Expected 32'h100, got %0h", pc);
 
         // Step 5: Resume normal operation
         pc_enable = 1;
         next_pc = pc + 4;
-        #20;
+        #(JPC_CLOCK_PERIOD);
+        if (pc !== 32'h104) $error("Assertion failed: PC resume failed! Expected 32'h104, got %0h", pc);
 
         // End simulation
         $finish;
