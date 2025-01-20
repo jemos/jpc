@@ -2,11 +2,11 @@
 `timescale 1ns / 1ps
 
 module jpc_pc (
-    input wire clk,                      // Clock signal
-    input wire rst,                      // Reset signal
-    input wire [`JPC_ADDRESS_WIDTH-1:0] next_pc_I, // Next PC value (from branch/jump logic)
-    input wire pc_enable_I,              // Control signal to enable PC update
-    output reg [`JPC_ADDRESS_WIDTH-1:0] pc_O // Current PC value
+    input   wire                          clk,       // Clock signal
+    input   wire                          rst,       // Reset signal
+    input   wire [`JPC_ADDRESS_WIDTH-1:0] next_pc_I, // Next PC value (from branch/jump logic)
+    input   wire                          en_I,      // Control signal to enable PC update
+    output  reg [`JPC_ADDRESS_WIDTH-1:0]  pc_O       // Current PC value
 );
 
     // Internal signal for handling endianness conversion
@@ -24,7 +24,7 @@ module jpc_pc (
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             pc_O <= {`JPC_ADDRESS_WIDTH{1'b0}};  // Reset PC to 0
-        end else if (pc_enable_I) begin
+        end else if (en_I) begin
             pc_O <= adjusted_next_pc;   // Update PC with the adjusted value
         end
     end

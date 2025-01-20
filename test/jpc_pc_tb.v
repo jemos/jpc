@@ -21,7 +21,7 @@ module jpc_pc_tb;
         .clk(clk),
         .rst(rst),
         .next_pc_I(next_pc),
-        .pc_enable_I(pc_enable),
+        .en_I(pc_enable),
         .pc_O(pc)
     );
 
@@ -70,6 +70,7 @@ module jpc_pc_tb;
         if (pc !== 32'h104) $error("Assertion failed: PC resume failed! Expected 32'h104, got %0h", pc);
 
         // End simulation
+        $display("jpc_pc: All tests completed");
         $finish;
     end
 
