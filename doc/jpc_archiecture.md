@@ -90,3 +90,56 @@ If the `pc_I` and `pc_valid_I` are directly connected to the `mem_addr_O` and `m
     assign mem_addr_O = pc_I;
 
 The same strategy could be employed between the memory address and memory data, and between memory data and instruction ready.
+
+### Test and Simulation
+
+To run some basic tests in the instruction fetch, please use the following commands. It assumes that you have icarus verilog installed in your environment.
+
+    $ iverilog -g2012 -I src src/jpc_config.v src/jpc_pc.v \
+    src/jpc_32bram.v src/jpc_ifetch.v test/jpc_ifetch_tb.v
+    $ ./a.out 
+    No memory file provided. Using default values.
+    VCD info: dumpfile jpc_ifetch_tb.vcd opened for output.
+    0ns | PC: 00000000 (v0 r0) | INSTR: xxxxxxxx (v0 r0)
+    15ns | PC: 00000000 (v0 r1) | INSTR: xxxxxxxx (v0 r0)
+    [Test 1 @ 20ns] PASSED: Reset did not clear instr_valid (instr_valid=0)
+    [Test 2 @ 20ns] PASSED: Trying to read memory after reset (mem_addr_valid=0, mem_data_ready=0).
+    [Test 3 @ 20ns] PASSED: Not ready to receive PC (pc_ready=1).
+    20ns | PC: 00000000 (v1 r1) | INSTR: xxxxxxxx (v0 r1)
+    25ns | PC: 00000000 (v1 r0) | INSTR: xxxxxxxx (v0 r1)
+    [Test 4 @ 30ns] PASSED: Not loading memory address (mem_addr_valid=1)
+    30ns | PC: 00000000 (v0 r0) | INSTR: xxxxxxxx (v0 r1)
+    45ns | PC: 00000000 (v0 r0) | INSTR: deadbeef (v1 r1)
+    [Test 5 @ 50ns] PASSED: Not fetched the instruction (instr_valid=1)
+    [Test 6 @ 50ns] PASSED: Incorrect instruction fetched (instr=deadbeef)
+    55ns | PC: 00000000 (v0 r1) | INSTR: deadbeef (v0 r1)
+    jpc_ifetch: All tests completed
+    test/jpc_ifetch_tb.v:158: $finish called at 70000 (1ps)
+
+The waveform can be seen with gtkwave. An example is shown below.
+
+![Instruction Fetch](JPC_ifetch_simulation.png)
+
+## Instruction Decoder
+
+TBD
+
+## Instruction Unit
+
+TBD
+
+## Arithmetic Logic Unit (ALU)
+
+TBD
+
+## Register File
+
+TBD
+
+## External Memory
+
+TBD
+
+## Peripherals
+
+TBD
