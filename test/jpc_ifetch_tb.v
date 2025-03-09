@@ -1,48 +1,81 @@
 `include "jpc_config.v"
 
+`timescale 1ns/1ns
+
 module jpc_ifetch_tb;
 
     // Testbench parameters
     parameter CLK_PERIOD = 10; // Clock period in nanoseconds
+    parameter CLK_HPERIOD = 5; // Half-Clock period in nanoseconds
 
     reg clk;
     reg rst;
-    reg stall_I;
-    reg flush_I;
-    reg branch_taken_I;
-    reg [`JPC_ADDRESS_WIDTH-1:0] branch_addr_I;
-    reg trap_taken_I;
-    reg [`JPC_ADDRESS_WIDTH-1:0] trap_address_I;
-    wire [`JPC_ADDRESS_WIDTH-1:0] pc_O;
-    wire [`JPC_ADDRESS_WIDTH-1:0] next_pc_I;
-    wire [`JPC_ADDRESS_WIDTH-1:0] mem_addr_O;
-    wire [31:0] mem_data_I;
-    wire [31:0] instr_O;
+    
+    // PC signals
+    reg [`JPC_ADDRESS_WIDTH-1:0] pc;
+    reg pc_valid;
+    reg pc_ready;
 
-    // Instantiate jpc_pc
-    jpc_pc pc_module (
-        .clk(clk),
-        .rst(rst),
-        .next_pc_I(next_pc_I),
-        .en_I(!stall_I), // Enable PC update only if not stalled
-        .pc_O(pc_O)
-    );
+    // Memory signals
+    wire [`JPC_ADDRESS_WIDTH-1:0] mem_addr;
+    wire mem_addr_valid;
+    reg mem_addr_ready;
+    wire [`JPC_MEMDATA_WIDTH-1:0] mem_data;
+    reg mem_data_valid = 1'b0;
+    wire mem_data_ready;
 
-    // Instantiate the IFetch module
+    // Instruction signals
+    wire [`JPC_INSTRUCTION_WIDTH-1:0] instr;
+    wire instr_valid;
+    reg instr_ready;
+
+
+
+    integer test_counter = 1;
+    string assert_msg;
+    task jpc_assert(input bit condition, input time clock);
+    begin
+      if (!condition) begin
+        $display("[Test %0d @ %0t] FAILED: %s", test_counter, clock, assert_msg);
+      end else begin
+        $display("[Test %0d @ %0t] PASSED: %s", test_counter, clock, assert_msg);
+      end
+      test_counter++;
+    end
+    endtask
+
+    // A helper function to convert $time to clock cycles
+    function integer time_to_cycles;
+        input [63:0] current_time;
+        begin
+            // integer divide current time by the clock period
+            time_to_cycles = current_time / CLK_PERIOD;
+        end
+    endfunction
+
+    // Instantiate the Instruction Fetch module
+    reg mem_valid;
     jpc_ifetch uut (
         .clk(clk),
         .rst(rst),
-        .stall_I(stall_I),
-        .flush_I(flush_I),
-        .branch_taken_I(branch_taken_I),
-        .branch_addr_I(branch_addr_I),
-        .trap_taken_I(trap_taken_I),
-        .trap_address_I(trap_address_I),
-        .pc_I(pc_O),
-        .next_pc_O(next_pc_I),
-        .mem_addr_O(mem_addr_O),
-        .mem_data_I(mem_data_I),
-        .instr_O(instr_O)
+
+        // Program Counter signals
+        .pc_I(pc),
+        .pc_valid_I(pc_valid),
+        .pc_ready_O(pc_ready),
+
+        // Instruction signals
+        .instr_O(instr),
+        .instr_valid_O(instr_valid),
+        .instr_ready_I(instr_ready),
+
+        // Memory interface
+        .mem_addr_O(mem_addr),
+        .mem_addr_valid_O(mem_addr_valid),
+        .mem_addr_ready_I(mem_addr_ready),
+        .mem_data_I(mem_data),
+        .mem_data_valid_I(mem_data_valid),
+        .mem_data_ready_O(mem_data_ready)
     );
 
     // Instantiate the BRAM module
@@ -50,73 +83,85 @@ module jpc_ifetch_tb;
         .DEPTH(256)
     ) instruction_bram (
         .clk(clk),
-        .addr(mem_addr_O),
+        .addr(mem_addr),
         .din(32'b0), // No writing in this testbench
         .we(1'b0),   // No writing in this testbench
-        .dout(mem_data_I)
+        .dout(mem_data)
     );
 
     // Clock generation
     initial clk = 0;
-    always #(CLK_PERIOD / 2) clk = ~clk; // Clock toggles every half-period
+    always #(CLK_HPERIOD) clk = ~clk; // Clock toggles every half-period
 
     // Test sequence
     initial begin
+
+        $timeformat(-9, 0, "ns", 0);
+
         // Initialize signals
         rst = 1;
-        stall_I = 0;
-        flush_I = 0;
-        branch_taken_I = 0;
-        branch_addr_I = 0;
-        trap_taken_I = 0;
-        trap_address_I = 0;
+        pc = `JPC_NULL_ADDRESS;
+        pc_valid = 1'b0;
+        instr_ready = 1'b0;
+        mem_addr_ready = 1'b0; // tell dut mem addr not ready
 
-        #(CLK_PERIOD) rst = 0; // Release reset
+        // Keep reset for one clock period
+        #(CLK_PERIOD) rst = 0;
 
-        // Test 1: Sequential PC increment
-        if (pc_O != 0) $error("Test 1 failed: PC did not reset to 0");
+        // Check signals at next clock fall
         #(CLK_PERIOD);
-        if (pc_O != `JPC_INSTRUCTION_WIDTH) $error("Test 1 failed: PC did not increment correctly");
-        #(CLK_PERIOD);
+        
+        // Test 1: Confirm reset was done properly: output instr_valid is cleared.
+        assert_msg = $sformatf("Reset did not clear instr_valid (instr_valid=%b)", instr_valid);
+        jpc_assert(instr_valid == 0, $time);
 
-        // Test 2: Branch taken
-        branch_taken_I = 1;
-        branch_addr_I = 32'h10;
-        #(CLK_PERIOD);
-        branch_taken_I = 0; // Clear branch
-        if (pc_O != 32'h10) $error("Test 2 failed: PC did not branch correctly");
-        #(CLK_PERIOD);
+        // Test 2: DUT is not attempting to read memory
+        assert_msg = $sformatf("Trying to read memory after reset (mem_addr_valid=%b, mem_data_ready=%b).", mem_addr_valid, mem_data_ready);
+        jpc_assert(mem_addr_valid == 0 && mem_data_ready == 0, $time);
 
-        // Test 3: Trap handling
-        trap_taken_I = 1;
-        trap_address_I = 32'h20;
-        #(CLK_PERIOD);
-        trap_taken_I = 0; // Clear trap
-        if (pc_O != 32'h20) $error("Test 3 failed: PC did not handle trap correctly");
-        #(CLK_PERIOD);
+        // Test 3: Check if it's ready to receive a PC
+        assert_msg = $sformatf("Not ready to receive PC (pc_ready=%b).", pc_ready);
+        jpc_assert(pc_ready == 1'b1, $time);
 
-        // Test 4: Flush
-        flush_I = 1;
-        #(CLK_PERIOD);
-        if (instr_O != 32'b0) $error("Test 4 failed: Flush did not clear instruction");
-        if (pc_O != 32'h24) $error("Test 4 failed: PC updated (%h) during flush", pc_O);
-        flush_I = 0;
+        // Pass a null program counter and assert memory address ready.
+        pc = `JPC_NULL_ADDRESS;
+        pc_valid = 1'b1;
+        mem_addr_ready = 1'b1;
+        instr_ready = 1'b1;
 
-        // Test 5: Stall
-        stall_I = 1;
-        #(CLK_PERIOD);
-        if (pc_O != 32'h24) $error("Test 5 failed: PC updated (%h) during stall", pc_O);
-        stall_I = 0;
+        // Let it capture the new program counter
         #(CLK_PERIOD);
 
+        // Clear PC valid right after.
+        pc_valid = 1'b0;
+
+        // Test 4: Check that it will load an address to the memory interface
+        assert_msg = $sformatf("Not loading memory address (mem_addr_valid=%b)", mem_addr_valid);
+        jpc_assert(mem_addr_valid == 1'b1, $time);
+
+        // Wait for memory read at minimum, one cycle.
+        mem_data_valid = 1'b0;
+        #(CLK_PERIOD);
+        mem_data_valid = 1'b1;
+        #(CLK_PERIOD);
+
+        // Test 5: Check that the instruction was fetched
+        assert_msg = $sformatf("Not fetched the instruction (instr_valid=%b)", instr_valid);
+        jpc_assert(instr_valid == 1'b1, $time);
+
+        // Test 6: Check that the right instruction is at instr_O
+        assert_msg = $sformatf("Incorrect instruction fetched (instr=%h)", instr);
+        jpc_assert(instr == 32'hDEADBEEF, $time);
+
+        #(CLK_PERIOD); #(CLK_PERIOD);
         $display("jpc_ifetch: All tests completed");
         $finish;
     end
 
     // Add this inside the initial block for signal monitoring
     initial begin
-        $monitor("Time: %0t | PC: %h | Instr: %h | Branch Taken: %b | Trap Taken: %b | Stall: %b | Flush: %b", 
-                 $time, pc_O, instr_O, branch_taken_I, trap_taken_I, stall_I, flush_I);
+        $monitor("%0t | PC: %h (v%b r%b) | INSTR: %h (v%b r%b)", 
+                 $time, pc, pc_valid, pc_ready, instr, instr_valid, instr_ready);
     end
 
 
