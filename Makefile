@@ -20,7 +20,7 @@ ifeq ($(V),)
 endif
 
 build/%.sim build/%.vcd &: %.v build/%.d
-	$(IVERILOG) -I $(SRC_DIR) -DVCD_FILE='"build/$(<:.v=.vcd)"' -o "build/$(<:.v=.sim)" $(SRC_FILES) $<
+	$(IVERILOG) -g2012 -I $(SRC_DIR) -DVCD_FILE='"build/$(<:.v=.vcd)"' -o "build/$(<:.v=.sim)" $(SRC_FILES) $<
 
 .PHONY: run
 run:: build/$(V:.v=.sim)
