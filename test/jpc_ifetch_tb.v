@@ -1,5 +1,13 @@
 `include "jpc_config.v"
 
+// TESTS_EXPECTED:
+// TEST:IF001
+// TEST:IF002
+// TEST:IF003
+// TEST:IF004
+// TEST:IF005
+// TEST:IF006
+
 `timescale 1ns/1ns
 
 module jpc_ifetch_tb;
@@ -7,6 +15,7 @@ module jpc_ifetch_tb;
     // Testbench parameters
     parameter CLK_PERIOD = 10; // Clock period in nanoseconds
     parameter CLK_HPERIOD = 5; // Half-Clock period in nanoseconds
+    `include "jpc_time_to_cycles.v"
 
     reg clk;
     reg rst;
@@ -29,30 +38,9 @@ module jpc_ifetch_tb;
     wire instr_valid;
     reg instr_ready;
 
-
-
-    integer test_counter = 1;
     string assert_msg;
-    task jpc_assert(input bit condition, input time clock);
-    begin
-      if (!condition) begin
-        $display("[Test %0d @ %0t] FAILED: %s", test_counter, clock, assert_msg);
-      end else begin
-        $display("[Test %0d @ %0t] PASSED: %s", test_counter, clock, assert_msg);
-      end
-      test_counter++;
-    end
-    endtask
-
-    // A helper function to convert $time to clock cycles
-    function integer time_to_cycles;
-        input [63:0] current_time;
-        begin
-            // integer divide current time by the clock period
-            time_to_cycles = current_time / CLK_PERIOD;
-        end
-    endfunction
-
+    `include "jpc_assert.v"
+    
     // Instantiate the Instruction Fetch module
     reg mem_valid;
     jpc_ifetch uut (
@@ -113,15 +101,15 @@ module jpc_ifetch_tb;
         
         // Test 1: Confirm reset was done properly: output instr_valid is cleared.
         assert_msg = $sformatf("Reset did not clear instr_valid (instr_valid=%b)", instr_valid);
-        jpc_assert(instr_valid == 0, $time);
+        jpc_assert("IF001", instr_valid == 0, $time);
 
         // Test 2: DUT is not attempting to read memory
         assert_msg = $sformatf("Trying to read memory after reset (mem_addr_valid=%b, mem_data_ready=%b).", mem_addr_valid, mem_data_ready);
-        jpc_assert(mem_addr_valid == 0 && mem_data_ready == 0, $time);
+        jpc_assert("IF002", mem_addr_valid == 0 && mem_data_ready == 0, $time);
 
         // Test 3: Check if it's ready to receive a PC
         assert_msg = $sformatf("Not ready to receive PC (pc_ready=%b).", pc_ready);
-        jpc_assert(pc_ready == 1'b1, $time);
+        jpc_assert("IF003", pc_ready == 1'b1, $time);
 
         // Pass a null program counter and assert memory address ready.
         pc = `JPC_NULL_ADDRESS;
@@ -137,7 +125,7 @@ module jpc_ifetch_tb;
 
         // Test 4: Check that it will load an address to the memory interface
         assert_msg = $sformatf("Not loading memory address (mem_addr_valid=%b)", mem_addr_valid);
-        jpc_assert(mem_addr_valid == 1'b1, $time);
+        jpc_assert("IF004", mem_addr_valid == 1'b1, $time);
 
         // Wait for memory read at minimum, one cycle.
         mem_data_valid = 1'b0;
@@ -147,11 +135,11 @@ module jpc_ifetch_tb;
 
         // Test 5: Check that the instruction was fetched
         assert_msg = $sformatf("Not fetched the instruction (instr_valid=%b)", instr_valid);
-        jpc_assert(instr_valid == 1'b1, $time);
+        jpc_assert("IF005", instr_valid == 1'b1, $time);
 
         // Test 6: Check that the right instruction is at instr_O
         assert_msg = $sformatf("Incorrect instruction fetched (instr=%h)", instr);
-        jpc_assert(instr == 32'hDEADBEEF, $time);
+        jpc_assert("IF006", instr == 32'hDEADBEEF, $time);
 
         #(CLK_PERIOD); #(CLK_PERIOD);
         $display("jpc_ifetch: All tests completed");
