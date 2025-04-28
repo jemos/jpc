@@ -2,6 +2,14 @@
 
 `include "jpc_config.v"
 
+// TESTS_EXPECTED:
+// TEST:PC001
+// TEST:PC002
+// TEST:PC003
+// TEST:PC004
+// TEST:PC005
+// TEST:PC006
+
 module jpc_pc_tb;
 
     // Parameters for address width and clock period
