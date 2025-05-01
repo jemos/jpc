@@ -8,7 +8,6 @@
 // TEST:PC003
 // TEST:PC004
 // TEST:PC005
-// TEST:PC006
 
 module jpc_pc_tb;
 
