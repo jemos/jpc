@@ -1,3 +1,5 @@
+MAKEFLAGS += --no-print-directory
+
 # Tool binary names
 IVERILOG ?= iverilog
 GTKWAVE ?= gtkwave
@@ -24,7 +26,11 @@ build/%.sim build/%.vcd &: %.v build/%.d
 
 .PHONY: run
 run:: build/$(V:.v=.sim)
-	./$< | tee run.log
+	@if test ! -n "${DEBUG+x}"; then \
+		./$< | tee run.log; \
+	else \
+		./$< > run.log; \
+	fi
 
 .PHONY: sim
 wave:: build/$(V:.v=.vcd)
@@ -35,12 +41,15 @@ test::
 	@echo "Running tests: $(TB_FILES)"
 	@set -e; \
 	for v in $(TB_FILES); do \
-		echo $(MAKE) run V=$$v; \
-		$(CHRONIC) $(MAKE) run V=$$v; \
+		#echo $(MAKE) run V=$$v; \
+		$(CHRONIC) $(MAKE) run V=$$v; 2>&1 > /dev/null; \
 		grep "^// TEST:" $$v | sed 's|// TEST:||' > /tmp/expected_tests.txt; \
+		if test ! -s /tmp/expected_tests.txt; then \
+			echo "WARNING: $$v has no expected tests!"; \
+		fi; \
 		fail=0; \
 		while read testname; do \
-			echo "Trying to find [TEST:$$testname PASSED] in run.log ..."; \
+			#echo "Trying to find [TEST:$$testname PASSED] in run.log ..."; \
 			if ! grep -q "\[TEST:$$testname PASSED\]" run.log; then \
 				echo "ERROR: Test $$testname did not pass."; \
 				fail=1; \
