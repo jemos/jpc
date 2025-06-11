@@ -43,7 +43,15 @@
 // TEST:ID038
 // TEST:ID039
 
+`define INSTR_PRELOAD \
+  begin \
+    instr_valid = 1'b0; decode_ready = 1'b0; wait (instr_ready); \
+  end
 
+`define INSTR_READY \
+  begin \
+    instr_valid = 1'b1; decode_ready = 1'b1; wait (decode_valid); \
+  end
 
 module jpc_ifetch_tb;
 
@@ -68,12 +76,23 @@ module jpc_ifetch_tb;
     wire [4:0] rs2;
     wire [6:0] funct7;
     wire ecall, ebreak, fence, fence_i, error;
+    
+    reg decode_ready;
+    wire decode_valid;
+    wire instr_ready;
 
     string assert_msg = "";
     `include "jpc_assert.v"
 
+    reg instr_valid = 1'b0; // Assume instruction is always valid for simplicity
+
     jpc_idecode uut (
+        .clk(clk),
+        .rst(rst),
+
         .instr_I(instr),
+        .instr_ready_O(instr_ready),
+        .instr_valid_I(instr_valid),
 
         .opcode_O(opcode),
         .funct3_O(funct3),
@@ -87,8 +106,12 @@ module jpc_ifetch_tb;
         .ebreak_O(ebreak),
         .fence_O(fence),
         .fence_i_O(fence_i),
-        .error_O(error)
+        .error_O(error),
+
+        .decode_ready_I(decode_ready),
+        .decode_valid_O(decode_valid)
     );
+
     assign imm12 = imm[11:0];
     assign imm13 = imm[12:0];
     assign imm20 = imm[19:0];
@@ -96,7 +119,7 @@ module jpc_ifetch_tb;
 
     // Clock generation
     initial clk = 0;
-    always #(CLK_HPERIOD) clk = ~clk; // Clock toggles every half-period
+    always #(CLK_HPERIOD) clk = ~clk;
 
     // Temporary registers for instruction fields
     reg [4:0] irs2;
@@ -124,54 +147,71 @@ module jpc_ifetch_tb;
         #(CLK_PERIOD);
 
         // ------------------------------------------------------------
+        // Confirm reset was done properly: outputs are cleared.
+        assert_msg = $sformatf("Confirm reset was done properly: all outputs are cleared (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b imm=%h ecall=%b ebreak=%b fence=%b fence_i=%b error=%b instr_ready=%b decode_valid=%b)", 
+            opcode, funct3, rd, rs1, rs2, funct7, imm, ecall, ebreak, fence, fence_i, error, instr_ready, decode_valid);
+        jpc_assert("ID000",
+          (opcode == 7'b0000000) && (funct3 == 3'b000) && 
+          (rd == 5'b00000) && (rs1 == 5'b00000) && (rs2 == 5'b00000) && 
+          (funct7 == 7'b0000000) && (imm == 32'h00000000) &&
+          (ecall == 1'b0) && (ebreak == 1'b0) && 
+          (fence == 1'b0) && (fence_i == 1'b0) && 
+          (error == 1'b0) && (instr_ready == 1'b1) && (decode_valid == 1'b0), $time);
+
+
+        // ------------------------------------------------------------
         // # R-type Instructions
         // ------------------------------------------------------------
 
+        
+
+
         // R-type Instruction: ADD x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h0, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type ADD instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID001",
           (opcode == 7'b0110011) && (funct3 == 3'h0) && 
           (rd == ird) && (rs1 == irs1) && (rs2 == irs2) && 
           (funct7 == 7'h00), $time);
 
-
         // R-type Instruction: SUB x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h20, irs2, irs1, 3'h0, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SUB instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID002",
           (opcode == 7'b0110011) && (funct3 == 3'h0) && 
           (rd == ird) && (rs1 == irs1) && (rs2 == irs2) && 
           (funct7 == 7'h20), $time);
 
-
         // R-type Instruction: XOR x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h4, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type XOR instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID003",
           (opcode == 7'b0110011) && (funct3 == 3'h4) && 
           (rd == ird) && (rs1 == irs1) && (rs2 == irs2) && 
           (funct7 == 7'h00), $time);
 
-
         // R-type Instruction: OR x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h6, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type OR instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID004",
           (opcode == 7'b0110011) && (funct3 == 3'h6) && 
@@ -179,11 +219,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h00), $time);
 
         // R-type Instruction: AND x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h7, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type AND instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID005",
           (opcode == 7'b0110011) && (funct3 == 3'h7) && 
@@ -191,11 +232,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h00), $time);
 
         // R-type Instruction: SLL x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h1, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SLL instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID006",
           (opcode == 7'b0110011) && (funct3 == 3'h1) && 
@@ -203,11 +245,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h00), $time);
 
         // R-type Instruction: SRL x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h5, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SLL instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID007",
           (opcode == 7'b0110011) && (funct3 == 3'h5) && 
@@ -215,11 +258,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h00), $time);
 
         // R-type Instruction: SRA x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h20, irs2, irs1, 3'h5, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SRA instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID008",
           (opcode == 7'b0110011) && (funct3 == 3'h5) && 
@@ -227,11 +271,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h20), $time);
 
         // R-type Instruction: SLT x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h2, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SLT instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID009",
           (opcode == 7'b0110011) && (funct3 == 3'h2) && 
@@ -239,11 +284,12 @@ module jpc_ifetch_tb;
           (funct7 == 7'h00), $time);
 
         // R-type Instruction: SLTU x3, x1, x2
+        `INSTR_PRELOAD
         irs2 = $urandom_range(0, 2**5-1);
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {7'h00, irs2, irs1, 3'h3, ird, 7'b0110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("R-type SLTU instruction (opcode=%b funct3=%b rd=%b rs1=%b rs2=%b funct7=%b)", opcode, funct3, rd, rs1, rs2, funct7);
         jpc_assert("ID010",
           (opcode == 7'b0110011) && (funct3 == 3'h3) && 
@@ -257,11 +303,12 @@ module jpc_ifetch_tb;
 
 
         // I-type Instruction: ADDI rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h0, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type ADDI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID011",
           (opcode == 7'b0010011) && (funct3 == 3'h0) && 
@@ -269,11 +316,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
 
         // I-type Instruction: XOR rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h4, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type XORI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID012",
           (opcode == 7'b0010011) && (funct3 == 3'h4) && 
@@ -281,11 +329,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
         
         // I-type Instruction: OR rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h6, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type ORI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID013",
           (opcode == 7'b0010011) && (funct3 == 3'h6) && 
@@ -293,11 +342,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
         
         // I-type Instruction: AND rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h7, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type ANDI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID014",
           (opcode == 7'b0010011) && (funct3 == 3'h7) && 
@@ -305,12 +355,13 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
         
         // I-type Instruction: SLLI rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm = $urandom_range(0, 2**4-1);
         iimm[11:5] = 7'b0000000;
         instr = {iimm, irs1, 3'h1, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type SLLI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm);
         jpc_assert("ID015",
           (opcode == 7'b0010011) && (funct3 == 3'h1) && 
@@ -318,12 +369,13 @@ module jpc_ifetch_tb;
           (imm == iimm), $time);
 
         // I-type Instruction: SRLI rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm = $urandom_range(0, 2**4-1);
         iimm[11:5] = 7'b0000000;
         instr = {iimm, irs1, 3'h5, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type SRLI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm);
         jpc_assert("ID016",
           (opcode == 7'b0010011) && (funct3 == 3'h5) && 
@@ -331,12 +383,13 @@ module jpc_ifetch_tb;
           (imm == iimm), $time);
 
         // I-type Instruction: SRAI rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm = $urandom_range(0, 2**4-1);
         iimm[11:5] = 7'b0100000;
         instr = {iimm, irs1, 3'h5, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type SRAI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm);
         jpc_assert("ID017",
           (opcode == 7'b0010011) && (funct3 == 3'h5) && 
@@ -344,11 +397,12 @@ module jpc_ifetch_tb;
           (imm == iimm), $time);
         
         // I-type Instruction: SLTI rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm = $urandom_range(0, 2**12-1);
         instr = {iimm, irs1, 3'h2, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type SLTI instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm);
         jpc_assert("ID018",
           (opcode == 7'b0010011) && (funct3 == 3'h2) && 
@@ -356,11 +410,12 @@ module jpc_ifetch_tb;
           (imm == iimm), $time);
 
         // I-type Instruction: SLTIU rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h3, ird, 7'b0010011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type SLTIU instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h, irs1=%b, ird=%b, iimm=%h)", opcode, funct3, rd, rs1, imm12, irs1, ird, imm12);
         jpc_assert("ID019", opcode == 7'b0010011, $time);
         jpc_assert("ID019", funct3 == 3'h3, $time);
@@ -369,11 +424,12 @@ module jpc_ifetch_tb;
         jpc_assert("ID019", imm12 == iimm12, $time);
         
         // I-type Instruction: JALR rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h0, ird, 7'b1100111};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type JALR instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID020",
           (opcode == 7'b1100111) && (funct3 == 3'h0) && 
@@ -382,11 +438,12 @@ module jpc_ifetch_tb;
 
 
         // I-type Instruction: LB rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm = $urandom_range(0, 2**12-1);
         instr = {iimm, irs1, 3'h0, ird, 7'b0000011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type LB instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm);
         jpc_assert("ID021",
           (opcode == 7'b0000011) && (funct3 == 3'h0) && 
@@ -394,11 +451,12 @@ module jpc_ifetch_tb;
           (imm == iimm), $time);
         
         // I-type Instruction: LH rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h1, ird, 7'b0000011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type LH instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID022",
           (opcode == 7'b0000011) && (funct3 == 3'h1) && 
@@ -406,11 +464,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
 
         // I-type Instruction: LW rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h2, ird, 7'b0000011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type LW instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID023",
           (opcode == 7'b0000011) && (funct3 == 3'h2) && 
@@ -418,11 +477,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
 
         // I-type Instruction: LBU rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h4, ird, 7'b0000011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type LBU instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID024",
           (opcode == 7'b0000011) && (funct3 == 3'h4) && 
@@ -430,11 +490,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
         
         // I-type Instruction: LHU rd, rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12, irs1, 3'h5, ird, 7'b0000011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type LHU instruction (opcode=%b funct3=%b rd=%b rs1=%b imm=%h)", opcode, funct3, rd, rs1, imm12);
         jpc_assert("ID025",
           (opcode == 7'b0000011) && (funct3 == 3'h5) && 
@@ -442,20 +503,22 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
 
         // I-type Instruction: ECALL
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         iimm12 = 12'h0; // imm12 for ECALL is always 0
         instr = {iimm12, irs1, 3'h0, ird, 7'b1110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type ECALL instruction (ebreak=%b ecall=%b)", ebreak, ecall);
         jpc_assert("ID026",
           (ecall == 1'b1), $time);
         
         // I-type Instruction: EBREAK
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         ird = $urandom_range(0, 2**5-1);
         instr = {12'h1, irs1, 3'h0, ird, 7'b1110011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("I-type EBREAK instruction (ebreak=%b ecall=%b)", ebreak, ecall);
         jpc_assert("ID027",
           (ebreak == 1'b1), $time);
@@ -465,11 +528,12 @@ module jpc_ifetch_tb;
         // ------------------------------------------------------------
 
         // S-type Instruction: SB rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12[11:5], irs2, irs1, 3'h0, iimm12[4:0] , 7'b0100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("S-type SB instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm12);
         jpc_assert("ID028",
           (opcode == 7'b0100011) && (funct3 == 3'h0) && 
@@ -477,11 +541,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
 
         // S-type Instruction: SH rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12[11:5], irs2, irs1, 3'h1, iimm12[4:0], 7'b0100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("S-type SH instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm12);
         jpc_assert("ID029",
           (opcode == 7'b0100011) && (funct3 == 3'h1) && 
@@ -489,11 +554,12 @@ module jpc_ifetch_tb;
           (imm12 == iimm12), $time);
         
         // S-type Instruction: SW rs, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm12 = $urandom_range(0, 2**12-1);
         instr = {iimm12[11:5], irs2, irs1, 3'h2, iimm12[4:0], 7'b0100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("S-type SW instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm12);
         jpc_assert("ID030",
           (opcode == 7'b0100011) && (funct3 == 3'h2) && 
@@ -507,11 +573,12 @@ module jpc_ifetch_tb;
 
 
         // B-type Instruction: BEQ rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**13-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h0, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BEQ instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID031",
           (opcode == 7'b1100011) && (funct3 == 3'h0) && 
@@ -519,11 +586,12 @@ module jpc_ifetch_tb;
           (imm13 == iimm13), $time);
       
         // B-type Instruction: BNE rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**12-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h1, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BNE instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID032",
           (opcode == 7'b1100011) && (funct3 == 3'h1) && 
@@ -531,11 +599,12 @@ module jpc_ifetch_tb;
           (imm13 == iimm13), $time);
         
         // B-type Instruction: BLT rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**12-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h4, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BLT instr %b -> (opcode=%b funct3=%b rs1=%b rs2=%b imm=%b)", instr, opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID033",
           (opcode == 7'b1100011) && (funct3 == 3'h4) && 
@@ -543,11 +612,12 @@ module jpc_ifetch_tb;
           (imm13 == iimm13), $time);
         
         // B-type Instruction: BGE rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**12-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h5, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BGE instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID034",
           (opcode == 7'b1100011) && (funct3 == 3'h5) && 
@@ -555,11 +625,12 @@ module jpc_ifetch_tb;
           (imm13 == iimm13), $time);
         
         // B-type Instruction: BLTU rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**12-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h6, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BLTU instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID035",
           (opcode == 7'b1100011) && (funct3 == 3'h6) && 
@@ -567,11 +638,12 @@ module jpc_ifetch_tb;
           (imm13 == iimm13), $time);
         
         // B-type Instruction: BGEU rs1, rs2, imm
+        `INSTR_PRELOAD
         irs1 = $urandom_range(0, 2**5-1);
         irs2 = $urandom_range(0, 2**5-1);
         iimm13 = $urandom_range(0, 2**12-1) << 1;
         instr = {iimm13[12], iimm13[10:5], irs2, irs1, 3'h7, iimm13[4:1], iimm13[11], 7'b1100011};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("B-type BGEU instruction (opcode=%b funct3=%b rs1=%b rs2=%b imm=%h)", opcode, funct3, rs1, rs2, imm13);
         jpc_assert("ID036",
           (opcode == 7'b1100011) && (funct3 == 3'h7) && 
@@ -585,10 +657,11 @@ module jpc_ifetch_tb;
 
 
         // U-type Instruction: LUI rd, imm
+        `INSTR_PRELOAD
         ird = $urandom_range(0, 2**5-1);
         iimm20 = $urandom_range(0, 2**20-1);
         instr = {iimm20, ird, 7'b0110111};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("U-type LUI instruction (opcode=%b rd=%b imm=%b)", opcode, rd, imm);
         jpc_assert("ID037",
           (opcode == 7'b0110111) && 
@@ -596,10 +669,11 @@ module jpc_ifetch_tb;
           (imm == iimm20), $time);
         
         // U-type Instruction: AUIPC rd, imm
+        `INSTR_PRELOAD
         ird = $urandom_range(0, 2**5-1);
         iimm20 = $urandom_range(0, 2**20-1);
         instr = {iimm20, ird, 7'b0010111};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("U-type AUIPC instruction (opcode=%b rd=%b imm=%b)", opcode, rd, imm);
         jpc_assert("ID038",
           (opcode == 7'b0010111) && 
@@ -613,10 +687,11 @@ module jpc_ifetch_tb;
 
 
         // J-type Instruction: JAL rd, imm
+        `INSTR_PRELOAD
         ird = $urandom_range(0, 2**5-1);
         iimm21 = $urandom_range(0, 2**20-1) << 1;
         instr = {iimm21[20], iimm21[10:1], iimm21[11], iimm21[19:12], ird, 7'b1101111};
-        #10;
+        `INSTR_READY
         assert_msg = $sformatf("J-type JAL instruction (opcode=%b rd=%b imm=%h)", opcode, rd, imm);
         jpc_assert("ID039",
           (opcode == 7'b1101111) && 

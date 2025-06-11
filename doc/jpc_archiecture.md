@@ -65,6 +65,7 @@ The waveform for a full instruction fetch assuming the memory block takes the mi
 -->
 
 <img src="JPC_ifetch_waveform.svg" alt="drawing" width="400" style="display: block; margin: auto; padding-bottom: 20px"/>
+(Figure 3)
 
 After reset, the instruction fetch enters an idle state. From that state, it asserts `pc_ready_O` to indicate external module that it is ready to receive a new program counter value, and transitions to the next state (_Wait PC Valid_).
 
@@ -122,7 +123,15 @@ The waveform can be seen with gtkwave. An example is shown below.
 
 ## Instruction Decoder
 
-TBD
+The instruction decoder is a sequential block that decomposes the instruction bits into the different fields that can be more easily processed by the execution unit. I chosen to do it sequential to support handshake-based inputs and outputs.
+
+The following diagram illustrates the inputs and outputs of the instruction decoder block.
+
+<img src="JPC_idecode.png" alt="JPC Instruction Decoder block diagram." width="400px" style="display: block; margin: auto; padding-bottom: 20px"/>
+
+With the ready and valid signals, there is control flow of the information and we can easily stall the information transfer.
+
+<img src="JPC_idecode_flow.png" alt="JPC Instruction Decoder flow diagram." width="400px" style="display: block; margin: auto; padding-bottom: 20px"/>
 
 ## Instruction Unit
 
@@ -143,3 +152,6 @@ TBD
 ## Peripherals
 
 TBD
+
+# References
+
