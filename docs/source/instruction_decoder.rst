@@ -1,9 +1,12 @@
 Instruction Decoder
 -------------------
 
-The instruction decoder is a sequential block that decomposes the instruction bits into the different fields that can be more easily processed by the execution unit. I chosen to do it sequential to support handshake-based inputs and outputs.
+The instruction decoder is a sequential block that decomposes the instruction bits into the different 
+fields that can be more easily processed by the execution unit. Like the other pipeline blocks, it uses a
+handshake mechanism to communicate with the previous and next blocks.
 
-The following diagram (:numref:`instruction-decoder-state-diagram`) illustrates the inputs and outputs of the instruction decoder block.
+The following diagram (:numref:`instruction-decoder-state-diagram`) illustrates the inputs and outputs 
+of the instruction decoder block.
 
 .. _instruction-decoder-state-diagram:
 .. figure:: _images/JPC_idecode-3.svg
