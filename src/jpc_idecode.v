@@ -3,8 +3,8 @@
 //
 // JPC Instruction Decode Module
 //
-// Decodes the instruction bits into it's different components. As can be seen,
-// it's possible to define direct decoding logic for all components except for immediate.
+// Decodes the instruction bits into it's different components.
+// It's possible to define direct decoding logic for all components except for immediate.
 // The immediate has different locations depending on the instruction format (e.g., R, I, S, B, U, J).
 //
 // In case of EBREAK and ECALL, the instruction is decoded as a special case. It will
@@ -224,6 +224,30 @@ module jpc_idecode(
                         instr_reg <= instr_I;
                         instr_ready_O <= 1'b0;
                         curr_state <= `JPC_IDECODE_STATE_WAIT_DECODE;
+
+                        // Skip one state if decode_ready_I is asserted.
+                        if (decode_ready_I == 1'b1) begin
+                            // Propagate the decoded values to the output
+                            opcode_O   <= opcode_dec;
+                            funct3_O   <= funct3_dec;
+                            rd_O       <= rd_dec;
+                            imm32_O    <= imm32_dec;
+                            rs1_O      <= rs1_dec;
+                            rs2_O      <= rs2_dec;
+                            funct7_O   <= funct7_dec;
+                            ecall_O    <= ecall_dec;
+                            ebreak_O   <= ebreak_dec;
+                            fence_O    <= fence_dec;
+                            fence_i_O  <= fence_i_dec;
+                            error_O    <= error_dec;
+
+                            decode_valid_O <= 1'b1;
+
+                            // Go back to idle state after decoding
+                            curr_state <= `JPC_IDECODE_STATE_IDLE;
+                        end else begin
+                            curr_state <= `JPC_IDECODE_STATE_WAIT_DECODE;
+                        end
                     end else
                     begin
                         // If no instruction is valid, stay in the same state

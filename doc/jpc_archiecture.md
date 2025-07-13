@@ -127,7 +127,7 @@ The instruction decoder is a sequential block that decomposes the instruction bi
 
 The following diagram illustrates the inputs and outputs of the instruction decoder block.
 
-<img src="JPC_idecode.png" alt="JPC Instruction Decoder block diagram." width="400px" style="display: block; margin: auto; padding-bottom: 20px"/>
+<img src="JPC_idecode-3.svg" alt="JPC Instruction Decoder block diagram." width="400px" style="display: block; margin: auto; padding-bottom: 20px"/>
 
 With the ready and valid signals, there is control flow of the information and we can easily stall the information transfer.
 
