@@ -1,0 +1,421 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Instruction Decoder" href="instruction_decoder.html" /><link rel="prev" title="Basic Handshake Mechanism" href="basic_handshake_mechanism.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>Instruction Fetch - JemosLite RV32I documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">JemosLite RV32I  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">JemosLite RV32I  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="architecture.html">Processor Architecture</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Processor Architecture</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic_handshake_mechanism.html">Basic Handshake Mechanism</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Instruction Fetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instruction_decoder.html">Instruction Decoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution_unit.html">Execution Unit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arithmetic_logic_unit.html">Arithmetic Logic Unit (ALU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="register_file.html">Register File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_interface.html">Memory Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/instruction_fetch.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="instruction-fetch">
+<h1>Instruction Fetch<a class="headerlink" href="#instruction-fetch" title="Link to this heading">¶</a></h1>
+<p>The instruction fetch will use the current Program Counter (PC) value and fetch the instruction from the memory interface.</p>
+<figure class="align-center" id="id1">
+<span id="instruction-fetch-diagram"></span><a class="reference internal image-reference" href="_images/JPC_ifetch.png"><img alt="drawing" src="_images/JPC_ifetch.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">: Instruction Fetch block diagram.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The Instruction Fetch (<a class="reference internal" href="#instruction-fetch-diagram"><span class="std std-numref">Figure 2</span></a>) has the following groups of signals:</p>
+<ul class="simple">
+<li><p>The program counter input, taken from the program counter block which may have some overriding logic,
+for jumps, exceptions and similar cases;</p></li>
+<li><p>The instruction output that should contain the instruction read from the memory and ready to
+be consumed by the subsequent block (the Instruction Decoder);</p></li>
+<li><p>The memory interface with an address bus and a data bus.</p></li>
+</ul>
+<p>To initialize the instruction fetch the reset (<code class="docutils literal notranslate"><span class="pre">rst</span></code>) should be asserted for one clock cycle.
+This will clear all output valid signals.</p>
+<p>The following state diagram (<a class="reference internal" href="#instruction-fetch-state-diagram"><span class="std std-numref">Figure 3</span></a>) describes the Instruction
+Fetch internal flow.</p>
+<figure class="align-center" id="id2">
+<span id="instruction-fetch-state-diagram"></span><a class="reference internal image-reference" href="_images/JPC_ifetch_flow.svg"><img alt="drawing" src="_images/JPC_ifetch_flow.svg" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3 </span><span class="caption-text">: Instruction Fetch state diagram.</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The waveform (<a class="reference internal" href="#instruction-fetch-waveform"><span class="std std-numref">Figure 4</span></a>) for a full instruction fetch assuming the
+memory block takes the minimum possible time from address capture to instruction output availability.</p>
+<figure class="align-center" id="id3">
+<span id="instruction-fetch-waveform"></span><a class="reference internal image-reference" href="_images/JPC_ifetch_waveform.svg"><img alt="drawing" src="_images/JPC_ifetch_waveform.svg" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 4 </span><span class="caption-text">: Instruction Fetch waveform.</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>After reset, the instruction fetch enters an idle state. From that state, it asserts <code class="docutils literal notranslate"><span class="pre">pc_ready_O</span></code> to indicate external module that it is ready to receive a new program counter value, and transitions to the next state (<em>Wait PC Valid</em>).</p>
+<p>In <em>Wait PC Valid</em> it waits for <code class="docutils literal notranslate"><span class="pre">pc_valid_I</span></code> to be asserted which indicates when there is a valid program counter value at <code class="docutils literal notranslate"><span class="pre">pc_I</span></code>, ready to be captured by the instruction fetch.</p>
+<p>Once <code class="docutils literal notranslate"><span class="pre">pc_valid_I</span></code> is asserted, the <code class="docutils literal notranslate"><span class="pre">pc_I</span></code> is captured and saved in an internal register, and <code class="docutils literal notranslate"><span class="pre">pc_ready_O</span></code> is unasserted to indicate it’s no longer accepting new program counter values. It transitions to the next state <em>Wait Mem Addr Ready</em>.</p>
+<p>In <em>Wait Mem Addr Ready</em>, it waits for the memory block to be ready to accept a new address. When <code class="docutils literal notranslate"><span class="pre">mem_addr_ready_I</span></code> is asserted it will load <code class="docutils literal notranslate"><span class="pre">mem_addr_O</span></code> with <code class="docutils literal notranslate"><span class="pre">next_pc</span></code> value, assert <code class="docutils literal notranslate"><span class="pre">mem_addr_valid_O</span></code> to inform there is a valid address, and assert <code class="docutils literal notranslate"><span class="pre">mem_data_ready</span></code> to inform it’s ready to receive new data value. It transitions to <em>Wait Mem Data Valid</em> state.</p>
+<p>In <em>Wait Mem Data Valid</em> state it waits for the memory to send new data. When <code class="docutils literal notranslate"><span class="pre">mem_data_valid_I</span></code> is asserted it means we’ve valid data in <code class="docutils literal notranslate"><span class="pre">mem_data_I</span></code>. The data is stored in an internal register and <code class="docutils literal notranslate"><span class="pre">mem_addr_valid_O</span></code> is unasserted to inform we’re no longer providing a valid address to the memory block. The <code class="docutils literal notranslate"><span class="pre">mem_data_ready_O</span></code> is also asserted to inform it’s no longer accepting new data values. Then transitions to next state <em>Wait Instruction Ready</em> where the instruction fetch waits for the external block to be ready to receive a new instruction.</p>
+<p>In <em>Wait Instruction Ready</em> it waits for <code class="docutils literal notranslate"><span class="pre">instr_ready_I</span></code> signal to be asserted which means the external block (i.e., instruction decoder) is ready to accept a new instruction. Once it’s asserted, it will load the output <code class="docutils literal notranslate"><span class="pre">instr_O</span></code> with the new instruction, and <code class="docutils literal notranslate"><span class="pre">instr_valid_O</span></code> is asserted to indicate the external block that the <code class="docutils literal notranslate"><span class="pre">instr_O</span></code> has a valid value.</p>
+<section id="optimizing-instruction-fetch">
+<h2>Optimizing Instruction Fetch<a class="headerlink" href="#optimizing-instruction-fetch" title="Link to this heading">¶</a></h2>
+<p>If we look at the waveform in <a class="reference internal" href="#instruction-fetch-waveform"><span class="std std-numref">Figure 4</span></a>, we see it takes 3 clock cycles from capturing a valid PC and capturing the instruction at output. Can we make this instruction fetch faster?</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">pc_I</span></code> and <code class="docutils literal notranslate"><span class="pre">pc_valid_I</span></code> are directly connected to the <code class="docutils literal notranslate"><span class="pre">mem_addr_O</span></code> and <code class="docutils literal notranslate"><span class="pre">mem_addr_valid_O</span></code> signals respectively, we could spare one clock cycle because the capture of <code class="docutils literal notranslate"><span class="pre">pc_valid_I</span></code> would match the capture of <code class="docutils literal notranslate"><span class="pre">mem_addr_valid_O</span></code>, assuming <code class="docutils literal notranslate"><span class="pre">mem_addr_ready_I</span></code> is asserted. It would require adding combinational logic that is active between clock cycles.</p>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">assign</span><span class="w"> </span><span class="n">mem_addr_valid_O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pc_valid_I</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">state_wait_pc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">mem_addr_ready_I</span><span class="p">;</span>
+<span class="k">assign</span><span class="w"> </span><span class="n">mem_addr_O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pc_I</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The same strategy could be employed between the memory address and memory data, and between memory data and instruction ready.</p>
+</section>
+<section id="testbench">
+<h2>Testbench<a class="headerlink" href="#testbench" title="Link to this heading">¶</a></h2>
+<p>The testbench for the Instruction Fetch block is located in the file <code class="docutils literal notranslate"><span class="pre">test/jpc_ifetch_tb.v</span></code>. It tests
+the instruction fetch block by simulating various scenarios, including reset conditions, memory read
+attempts, and instruction fetching. For more details about the tests, please refer to the testbench file itself.</p>
+<p>To run the testbench, you will need to have a Verilog simulator installed. In context of this project,
+we use Icarus Verilog for simulation. The testbench is designed to be run with the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make run V=test/jpc_pc_tb.v
+iverilog -g2012 -I src -I test/ -DVCD_FILE=&#39;&quot;build/test/jpc_pc_tb.vcd&quot;&#39; ...
+No memory file provided. Using default values.
+VCD info: dumpfile build/test/jpc_pc_tb.vcd opened for output.
+Time: 0 | Reset: 1 | PC Enable: 0 | Next PC: 00000000 | Current PC: 00000000
+Time: 25000 | Reset: 0 | PC Enable: 1 | Next PC: 00000000 | Current PC: 00000000
+[TEST:PC001 PASSED]: PC reset correctly (pc=0x00000000).
+Time: 26000 | Reset: 0 | PC Enable: 1 | Next PC: 00000004 | Current PC: 00000000
+Time: 35000 | Reset: 0 | PC Enable: 1 | Next PC: 00000004 | Current PC: 00000004
+[TEST:PC002 PASSED]: PC incrementing as expected, expected 4, got 4
+Time: 36000 | Reset: 0 | PC Enable: 1 | Next PC: 00000100 | Current PC: 00000004
+Time: 45000 | Reset: 0 | PC Enable: 1 | Next PC: 00000100 | Current PC: 00000100
+[TEST:PC003 PASSED]: PC branch, expected 0x00000100, got 0x00000100
+Time: 46000 | Reset: 0 | PC Enable: 0 | Next PC: 00000104 | Current PC: 00000100
+[TEST:PC004 PASSED]: PC stall, expected 0x00000100, got 0x00000100
+Time: 66000 | Reset: 0 | PC Enable: 1 | Next PC: 00000104 | Current PC: 00000100
+Time: 75000 | Reset: 0 | PC Enable: 1 | Next PC: 00000104 | Current PC: 00000104
+[TEST:PC005 PASSED]: PC resume, expected 0x00000104, got 0x00000104
+jpc_pc: All tests completed
+test/jpc_pc_tb.v:90: $finish called at 76000 (1ps)
+</pre></div>
+</div>
+<p>With <a class="reference external" href="https://gtkwave.github.io/gtkwave/">GTKWave</a>, we can see a waveform of the signals that resulted from the simulation.
+An example is shown in <a class="reference internal" href="#instruction-fetch-simulation"><span class="std std-numref">Figure 5</span></a> below.</p>
+<figure class="align-default" id="id4">
+<span id="instruction-fetch-simulation"></span><img alt="Instruction Fetch" src="_images/JPC_ifetch_simulation.png" />
+<figcaption>
+<p><span class="caption-number">Figure 5 </span><span class="caption-text">: Instruction Fetch simulation waveform.</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="instruction_decoder.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Instruction Decoder</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="basic_handshake_mechanism.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Basic Handshake Mechanism</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, jemos.net
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Instruction Fetch</a><ul>
+<li><a class="reference internal" href="#optimizing-instruction-fetch">Optimizing Instruction Fetch</a></li>
+<li><a class="reference internal" href="#testbench">Testbench</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>
