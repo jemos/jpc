@@ -2,6 +2,13 @@
 
 `include "jpc_config.v"
 
+// TESTS_EXPECTED:
+// TEST:PC001
+// TEST:PC002
+// TEST:PC003
+// TEST:PC004
+// TEST:PC005
+
 module jpc_pc_tb;
 
     // Parameters for address width and clock period
@@ -49,33 +56,33 @@ module jpc_pc_tb;
         #(1);
         
         // Test 1: Confirm reset was done properly: output pc is cleared.
-        assert_msg = $sformatf("PC did not reset correctly (pc=0x%h).", pc);
+        assert_msg = $sformatf("PC reset correctly (pc=0x%h).", pc);
         jpc_assert("PC001", pc == 0, $time);
 
         // Step 2: Normal operation - increment PC by 4
         next_pc = pc + 4;
         #(CLK_PERIOD);  // Wait for one clock cycle
-        assert_msg = $sformatf("PC increment failed! Expected 4, got %0h", pc);
+        assert_msg = $sformatf("PC incrementing as expected, expected 4, got %0h", pc);
         jpc_assert("PC002", pc == 4, $time);
 
         // Step 3: Simulate a branch (jump to 32'h100)
         next_pc = 32'h100;
         #(CLK_PERIOD);
-        assert_msg = $sformatf("PC branch failed! Expected 32'h100, got %0h", pc);
+        assert_msg = $sformatf("PC branch, expected 0x00000100, got 0x%08h", pc);
         jpc_assert("PC003", pc == 32'h100, $time);
 
         // Step 4: Stall the PC (disable pc_enable)
         pc_enable = 0;
         next_pc = pc + 4;
         #(2 * CLK_PERIOD);  // Wait for two clock cycles
-        assert_msg = $sformatf("PC stall failed! Expected 32'h100, got %0h", pc);
+        assert_msg = $sformatf("PC stall, expected 0x00000100, got 0x%08h", pc);
         jpc_assert("PC004", pc == 32'h100, $time);
 
         // Step 5: Resume normal operation
         pc_enable = 1;
         next_pc = pc + 4;
         #(CLK_PERIOD);
-        assert_msg = $sformatf("PC resume failed! Expected 32'h104, got %0h", pc);
+        assert_msg = $sformatf("PC resume, expected 0x00000104, got 0x%08h", pc);
         jpc_assert("PC005", pc == 32'h104, $time);
 
         // End simulation

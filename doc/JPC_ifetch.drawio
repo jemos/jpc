@@ -1,205 +1,205 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.16 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.16">
   <diagram name="Page-1" id="lBrTFC5EUmdXm_gLXXo7">
-    <mxGraphModel dx="578" dy="658" grid="1" gridSize="15" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="400" pageHeight="250" math="0" shadow="0">
+    <mxGraphModel dx="1735" dy="1475" grid="1" gridSize="15" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="400" pageHeight="250" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="cgvgibjGXmXXn0c_YGps-1" value="Instruction Fetch&lt;div&gt;&lt;br&gt;&lt;div&gt;jlc_ifetch.v&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;strokeWidth=2;fillStyle=solid;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-1" value="Instruction Fetch&lt;div&gt;&lt;br&gt;&lt;div&gt;jlc_ifetch.v&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;strokeWidth=2;fillStyle=solid;" parent="1" vertex="1">
           <mxGeometry x="135" y="15" width="105" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-2" value="" style="endArrow=none;html=1;rounded=0;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;startFill=0;" edge="1" parent="1" target="cgvgibjGXmXXn0c_YGps-39">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-2" value="" style="endArrow=none;html=1;rounded=0;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;startFill=0;" parent="1" target="cgvgibjGXmXXn0c_YGps-39" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="75" y="225" as="sourcePoint" />
             <mxPoint x="130" y="225" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-3" value="clk" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-2">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-3" value="clk" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" parent="cgvgibjGXmXXn0c_YGps-2" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="-31" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-4" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-4" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="105" y="180" as="sourcePoint" />
             <mxPoint x="135" y="180" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-5" value="rst" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-4">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-5" value="rst" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" parent="cgvgibjGXmXXn0c_YGps-4" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="-5" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-6" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-6" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="105" y="30" as="sourcePoint" />
             <mxPoint x="135" y="30" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-7" value="&lt;div&gt;pc_I&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-6">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-7" value="&lt;div&gt;pc_I&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" parent="cgvgibjGXmXXn0c_YGps-6" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="-5" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-8" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startFill=1;startArrow=blockThin;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-8" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startFill=1;startArrow=blockThin;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="105" y="60" as="sourcePoint" />
             <mxPoint x="135" y="60" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-9" value="&lt;div&gt;pc_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-8">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-9" value="&lt;div&gt;pc_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" parent="cgvgibjGXmXXn0c_YGps-8" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="-5" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-31" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-31" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="45" as="sourcePoint" />
             <mxPoint x="270" y="45" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-32" value="&lt;div&gt;instr_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-31">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-32" value="&lt;div&gt;instr_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-31" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-33" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-33" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="30" as="sourcePoint" />
             <mxPoint x="270" y="30" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-34" value="&lt;div&gt;instr_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-33">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-34" value="&lt;div&gt;instr_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-33" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-35" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-35" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="119.8" as="sourcePoint" />
             <mxPoint x="270" y="119.8" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-36" value="&lt;div&gt;mem_addr_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-35">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-36" value="&lt;div&gt;mem_addr_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-35" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-37" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-37" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="105" as="sourcePoint" />
             <mxPoint x="270" y="105.09" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-38" value="&lt;div&gt;mem_addr_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-37">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-38" value="&lt;div&gt;mem_addr_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-37" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-39" value="" style="triangle;whiteSpace=wrap;html=1;rotation=-90;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-39" value="" style="triangle;whiteSpace=wrap;html=1;rotation=-90;" parent="1" vertex="1">
           <mxGeometry x="185" y="185" width="10" height="10" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-42" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-42" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="134.8" as="sourcePoint" />
             <mxPoint x="270" y="134.8" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-43" value="&lt;div&gt;mem_addr_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-42">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-43" value="&lt;div&gt;mem_addr_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-42" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-44" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-44" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="180.2" as="sourcePoint" />
             <mxPoint x="270" y="180.2" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-45" value="&lt;div&gt;mem_data_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-44">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-45" value="&lt;div&gt;mem_data_ready_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-44" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-46" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-46" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="150" as="sourcePoint" />
             <mxPoint x="270" y="150.09" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-47" value="&lt;div&gt;mem_data_I&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-46">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-47" value="&lt;div&gt;mem_data_I&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-46" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-48" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-48" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="165" as="sourcePoint" />
             <mxPoint x="270" y="165" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-49" value="&lt;div&gt;mem_data_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-48">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-49" value="&lt;div&gt;mem_data_valid_O&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-48" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-50" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-50" value="" style="endArrow=blockThin;html=1;rounded=0;endFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="105" y="45" as="sourcePoint" />
             <mxPoint x="135" y="45" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-51" value="&lt;div&gt;pc_valid_I&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-50">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-51" value="&lt;div&gt;pc_valid_I&lt;/div&gt;" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelPosition=left;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;" parent="cgvgibjGXmXXn0c_YGps-50" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="-5" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-52" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-52" value="" style="endArrow=none;html=1;rounded=0;endFill=1;startArrow=blockThin;startFill=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="60" as="sourcePoint" />
             <mxPoint x="270" y="60" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-53" value="&lt;div&gt;instr_ready_I&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-52">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-53" value="&lt;div&gt;instr_ready_I&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontFamily=Courier New;spacingRight=2;fontSize=10;spacingLeft=2;" parent="cgvgibjGXmXXn0c_YGps-52" vertex="1" connectable="0">
           <mxGeometry x="-0.574" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-62" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-56" target="cgvgibjGXmXXn0c_YGps-57">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-62" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cgvgibjGXmXXn0c_YGps-56" target="cgvgibjGXmXXn0c_YGps-57" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-63" value="pc_ready=1" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-62">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-63" value="pc_ready=1&lt;div&gt;mem_addr_valid=0&lt;/div&gt;&lt;div&gt;mem_data_ready=0&lt;/div&gt;&lt;div&gt;instr_valid=0&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-62" vertex="1" connectable="0">
           <mxGeometry x="-0.1972" relative="1" as="geometry">
             <mxPoint x="14" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-56" value="Idle" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=9;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-56" value="IDLE" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="480" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-67" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-57">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-67" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cgvgibjGXmXXn0c_YGps-57" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="510" y="210" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-70" value="&lt;div&gt;next_pc = pc&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;pc_ready=0&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-67">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-70" value="&lt;div&gt;next_pc = pc&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;pc_ready=0&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-67" vertex="1" connectable="0">
           <mxGeometry x="-0.4222" relative="1" as="geometry">
             <mxPoint x="12" y="6" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-57" value="Wait&lt;div&gt;PC&lt;/div&gt;&lt;div&gt;Valid&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=9;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-57" value="PC_&lt;div&gt;VALID&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="480" y="105" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-58" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-58" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="509.69" y="-40" as="sourcePoint" />
             <mxPoint x="509.69" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-59" value="rst=1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-58">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-59" value="rst=1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-58" vertex="1" connectable="0">
           <mxGeometry x="-0.2531" relative="1" as="geometry">
             <mxPoint x="15" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-57" target="cgvgibjGXmXXn0c_YGps-57">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" parent="1" source="cgvgibjGXmXXn0c_YGps-57" target="cgvgibjGXmXXn0c_YGps-57" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="555" y="135" />
@@ -207,23 +207,23 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-65" value="pc_valid=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-64">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-65" value="pc_valid=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-64" vertex="1" connectable="0">
           <mxGeometry x="0.0492" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-94" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-96" target="cgvgibjGXmXXn0c_YGps-100">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-94" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cgvgibjGXmXXn0c_YGps-96" target="cgvgibjGXmXXn0c_YGps-100" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-95" value="&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_addr=next_pc&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_addr_valid=1&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_data_ready=1&lt;/font&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-94">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-95" value="&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_addr=next_pc&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_addr_valid=1&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;mem_data_ready=1&lt;/font&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;" parent="cgvgibjGXmXXn0c_YGps-94" vertex="1" connectable="0">
           <mxGeometry x="-0.3226" y="1" relative="1" as="geometry">
             <mxPoint x="6" y="6" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-96" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Wait Mem Addr Ready&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-96" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;ADDR_&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;READY&lt;/font&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="480" y="210" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="540" y="240" as="sourcePoint" />
             <mxPoint x="531" y="219" as="targetPoint" />
@@ -233,18 +233,18 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-98" value="mem_addr_ready=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-97">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-98" value="mem_addr_ready=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-97" vertex="1" connectable="0">
           <mxGeometry x="0.0492" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-99" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-100" target="cgvgibjGXmXXn0c_YGps-108">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-99" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cgvgibjGXmXXn0c_YGps-100" target="cgvgibjGXmXXn0c_YGps-108" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-100" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Wait Mem Data Valid&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-100" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;DATA_&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;VALID&lt;/font&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="480" y="345" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-101" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-101" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="540" y="375" as="sourcePoint" />
             <mxPoint x="531" y="354" as="targetPoint" />
@@ -254,32 +254,24 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-102" value="mem_data_valid=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-101">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-102" value="mem_data_valid=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-101" vertex="1" connectable="0">
           <mxGeometry x="0.0492" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-103" value="Let&#39;s wait for memory address to be ready to receive a new address value." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-103" value="Let&#39;s wait for memory address to be ready to receive a new address value." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" parent="1" vertex="1">
           <mxGeometry x="660" y="216" width="180" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-104" value="The memory address is ready, pass the PC value to it and allow new values of PC to be received. Set it ready to receive data from memory." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-104" value="The memory address is ready, pass the PC value to it and allow new values of PC to be received. Set it ready to receive data from memory." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="270" width="180" height="53" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-105" value="Now, we&#39;ve to wait for the data to be read from the memory." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-105" value="Now, we&#39;ve to wait for the data to be read from the memory." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="345" width="180" height="53" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-106" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-108" target="cgvgibjGXmXXn0c_YGps-114">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-107" value="&lt;font&gt;instr=next_instr&lt;/font&gt;&lt;div&gt;&lt;font&gt;instr_valid=1&lt;/font&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-106">
-          <mxGeometry x="-0.2553" y="-1" relative="1" as="geometry">
-            <mxPoint x="15" y="4" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-108" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Wait Instruction Ready&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-108" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;INSTR_&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;READY&lt;/font&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="480" y="465" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-109" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-109" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="540" y="495" as="sourcePoint" />
             <mxPoint x="531" y="474" as="targetPoint" />
@@ -289,34 +281,75 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-110" value="instr_ready=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="cgvgibjGXmXXn0c_YGps-109">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-110" value="instr_ready=0?" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="cgvgibjGXmXXn0c_YGps-109" vertex="1" connectable="0">
           <mxGeometry x="0.0492" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-111" value="&lt;font&gt;next_instr=mem_data&lt;/font&gt;&lt;div&gt;&lt;font&gt;mem_addr_valid=0&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;mem_data_ready=0&lt;/font&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-111" value="&lt;font&gt;next_instr=mem_data&lt;/font&gt;&lt;div&gt;&lt;font&gt;mem_addr_valid=0&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;mem_data_ready=0&lt;/font&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" parent="1" vertex="1" connectable="0">
           <mxGeometry x="523.9999999999999" y="430.9958536585366" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-112" value="Keep memory data read in a temporary register. Clear address valid (not providing a valid address anymore), and data ready signals (not ready to receive data yet)." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-112" value="Keep memory data read in a temporary register. Clear address valid (not providing a valid address anymore), and data ready signals (not ready to receive data yet)." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="405" width="180" height="53" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-113" value="Wait for instruction ready signal so that a new instruction can be asserted." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-113" value="Wait for instruction ready signal so that a new instruction can be asserted." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="472" width="180" height="53" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-114" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Wait Instruction Send&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="480" y="585" width="60" height="60" as="geometry" />
+        <mxCell id="cgvgibjGXmXXn0c_YGps-119" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=0;" parent="1" source="cgvgibjGXmXXn0c_YGps-108" target="cgvgibjGXmXXn0c_YGps-56" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="615" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="510" y="570" />
+              <mxPoint x="405" y="570" />
+              <mxPoint x="405" y="30" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-115" value="Ready to send next instruction, load the instruction in instr and assert instr_valid to inform the receiver." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-115" value="Ready to send next instruction, load the instruction in instr and assert instr_valid to inform the receiver." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="525" width="180" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-116" value="Wait one cycle for the instruction transmission completion." style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2;spacing=0;" vertex="1" parent="1">
-          <mxGeometry x="660" y="592.5" width="180" height="45" as="geometry" />
-        </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-117" value="Save PC in a temporary register since we may loose it. Unassert PC ready to inform we&#39;re not ready to receive another PC yet." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-117" value="Save PC in a temporary register since we may loose it. Unassert PC ready to inform we&#39;re not ready to receive another PC yet." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" parent="1" vertex="1">
           <mxGeometry x="660" y="162" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="cgvgibjGXmXXn0c_YGps-118" value="Wait for a PC to be valid, while we&#39;ve pc_ready is asserted." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" vertex="1" parent="1">
+        <mxCell id="cgvgibjGXmXXn0c_YGps-118" value="Wait for a PC to be valid, while we&#39;ve pc_ready is asserted." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;fontStyle=2" parent="1" vertex="1">
           <mxGeometry x="660" y="103" width="180" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-2" value="" style="endArrow=none;html=1;rounded=1;exitX=0.199;exitY=0.086;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;endFill=1;startFill=1;startArrow=classic;curved=0;exitPerimeter=0;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-100" target="cgvgibjGXmXXn0c_YGps-57">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="323" as="sourcePoint" />
+            <mxPoint x="470" y="273" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="450" y="315" />
+              <mxPoint x="450" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-4" value="" style="endArrow=none;html=1;rounded=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=1;exitDx=0;exitDy=0;endFill=0;startFill=1;startArrow=classic;curved=0;" edge="1" parent="1" source="cgvgibjGXmXXn0c_YGps-56" target="cgvgibjGXmXXn0c_YGps-100">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="398" y="442" as="sourcePoint" />
+            <mxPoint x="448" y="392" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="435" y="90" />
+              <mxPoint x="435" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-5" value="(B)" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="455" y="351.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-6" value="(A)" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="472" y="326.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-7" value="&lt;b&gt;(A)&lt;/b&gt;&amp;nbsp;pc_valid=1 &amp;amp;&amp;amp; mem_addr_ready=1&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; mem_addr=next_pc&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; mem_addr_valid=1&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; mem_data_ready=1&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;fontFamily=Helvetica;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="660" y="-5.684341886080802e-14" as="geometry" />
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-8" value="&lt;b&gt;(B)&lt;/b&gt; mem_data_valid=1 &amp;amp;&amp;amp; instr_ready=1&lt;div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; instr=next_instr=mem_data&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; instr_valid=1&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; mem_addr_valid=0&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; mem_data_ready=0&lt;/div&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="460" y="404.99999999999994" as="geometry">
+            <mxPoint x="206" y="-345" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w5dy9RdgzLZz_x4S9jLJ-9" value="&lt;div&gt;instr = next_instr&lt;/div&gt;instr_valid=1" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelPosition=right;verticalLabelPosition=middle;fontSize=9;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="523.9999999999999" y="547.4958536585366" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

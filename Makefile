@@ -1,3 +1,5 @@
+MAKEFLAGS += --no-print-directory
+
 # Tool binary names
 IVERILOG ?= iverilog
 GTKWAVE ?= gtkwave
@@ -9,7 +11,7 @@ BUILD_DIR := build
 
 SRC_FILES := $(shell find $(SRC_DIR)/ -type f -name "*.v")
 TB_FILES := $(shell find $(TEST_DIR)/ -type f -name "*_tb.v")
-
+DOCS_FILES := $(shell find docs/source/ -type f -name "*.rst" -name "config.py" -name "*.png" -name "*.svg")
 
 build/%.d: %.v
 	@mkdir -p $(dir $@)
@@ -24,7 +26,11 @@ build/%.sim build/%.vcd &: %.v build/%.d
 
 .PHONY: run
 run:: build/$(V:.v=.sim)
-	./$< | tee run.log
+	@if test ! -n "${DEBUG+x}"; then \
+		./$< | tee run.log; \
+	else \
+		./$< > run.log; \
+	fi
 
 .PHONY: sim
 wave:: build/$(V:.v=.vcd)
@@ -35,12 +41,14 @@ test::
 	@echo "Running tests: $(TB_FILES)"
 	@set -e; \
 	for v in $(TB_FILES); do \
-		echo $(MAKE) run V=$$v; \
-		$(CHRONIC) $(MAKE) run V=$$v; \
+		$(CHRONIC) $(MAKE) run V=$$v; 2>&1 > /dev/null; \
 		grep "^// TEST:" $$v | sed 's|// TEST:||' > /tmp/expected_tests.txt; \
+		if test ! -s /tmp/expected_tests.txt; then \
+			echo "WARNING: $$v has no expected tests!"; \
+		fi; \
 		fail=0; \
 		while read testname; do \
-			echo "Trying to find [TEST:$$testname PASSED] in run.log ..."; \
+			#echo "Trying to find [TEST:$$testname PASSED] in run.log ..."; \
 			if ! grep -q "\[TEST:$$testname PASSED\]" run.log; then \
 				echo "ERROR: Test $$testname did not pass."; \
 				fail=1; \
@@ -51,6 +59,10 @@ test::
 	done; \
 	echo "All testbenches PASSED."
 
+.PHONY: docs
+docs:: $(DOCS_FILES)
+	sphinx-build -M html docs/source/ docs/build/
+
 help:
 	@echo "Usage: make [TARGET] V=mysource"
 	@echo "Targets:"
@@ -59,3 +71,9 @@ help:
 	@echo "  test            Run simulation of all testbentches."
 	@echo "  clean           Remove generated files"
 	@echo "  help            Show this help message"
+
+.PHONY: clean
+clean:
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILD_DIR)
+	@echo "Done."
