@@ -28,7 +28,6 @@ jobs:
 
       - name: Build documentation
         run: |
-          cd docs
           make docs
 
       - name: Upload artifact
