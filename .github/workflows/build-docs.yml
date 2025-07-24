@@ -33,8 +33,12 @@ jobs:
         run: |
           make docs
 
+      - name: Fix permissions for Pages
+        run: |
+          chmod -R +rX docs/build/html
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: github-pages
           path: docs/build/html
