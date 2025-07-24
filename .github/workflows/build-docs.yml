@@ -35,7 +35,7 @@ jobs:
 
       - name: Fix permissions for Pages
         run: |
-          chmod -R +rwX docs/build/html
+          chmod -R +rwX docs/build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
