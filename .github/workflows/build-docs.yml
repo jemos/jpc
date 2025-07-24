@@ -36,12 +36,13 @@ jobs:
       - name: Fix permissions for Pages
         run: |
           chmod -R +rwX docs/build
+          cp -r --dereference --no-preserve=mode,ownership docs/build/html docs/build/html_fix
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: docs/build/html
+          path: docs/build/html_fix
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
