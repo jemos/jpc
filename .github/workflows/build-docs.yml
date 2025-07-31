@@ -3,15 +3,18 @@ name: Build Sphinx Docs
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write  # Required for GitHub Pages deployments
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
 
     steps:
       - name: Checkout code
@@ -30,11 +33,21 @@ jobs:
         run: |
           make docs
 
+      - name: Fix permissions for Pages
+        run: |
+          chmod -R +rwX docs/build
+          cp -r --dereference --no-preserve=mode,ownership docs/build/html docs/build/html_fix
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          path: docs/build/html
           name: github-pages
+          overwrite: true
+          path: docs/build/html_fix
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
+          force_orphan: true   # optional — clears old files
